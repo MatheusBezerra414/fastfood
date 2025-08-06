@@ -19,8 +19,6 @@
     "schema:drop": "npm run typeorm -- --dataSource=src/config/database/data-source.ts schema:drop",
     "schema:log": "npm run typeorm -- --dataSource=src/config/database/data-source.ts schema:log",
     "typeorm": "env-cmd ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "seed:run:relational": "ts-node -r tsconfig-paths/register ./src/config/database/seeds/relational/run-seed.ts",
-    "seed:run:document": "ts-node -r tsconfig-paths/register ./src/config/database/seeds/documents/run-seed.ts",
     "seed:build": "node ./dist/config/database/seeds/documents/run-seed.js",
     "lint": "eslint \"{src,apps,libs}/**/*.ts\" --fix"
   },
