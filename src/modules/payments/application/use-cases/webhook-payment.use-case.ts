@@ -35,13 +35,13 @@ export class WebHookPaymentUseCase {
         const order = await this.findOrder.execute(payment.orderId);
         await this.updateStatusOrder.execute(order.id, {
           id: order.id,
-          status: OrderStatus.PAGO,
+          status: OrderStatus.IN_PREPARATION,
         });
       }
       if (status === PaymentStatus.FAILED) {
         await this.updateStatusOrder.execute(payment.orderId, {
           id: payment.orderId,
-          status: OrderStatus.CANCELADO,
+          status: OrderStatus.CANCELLED,
         });
       }
       const orderUpdated = await this.findOrder.execute(payment.orderId);

@@ -2,6 +2,7 @@ import {
   Injectable,
   InternalServerErrorException,
   Inject,
+  NotFoundException,
 } from '@nestjs/common';
 import { Order } from '../../domain/core/order.entity';
 import {
@@ -17,7 +18,11 @@ export class FindOrderUseCase {
 
   async execute(id: string): Promise<Order> {
     try {
-      return await this.orderRepository.findOne(id);
+      const order = await this.orderRepository.findOne(id);
+      if (!order) {
+        throw new NotFoundException('Order not found');
+      }
+      return order;
     } catch (error) {
       if (error instanceof Error) {
         throw new InternalServerErrorException('Error fetching order', {

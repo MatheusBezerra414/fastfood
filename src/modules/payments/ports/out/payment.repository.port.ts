@@ -10,4 +10,4 @@ export interface IPaymentRepository {
   findOne(id: string): Promise<Payment>;
   remove(id: string): Promise<Payment>;
   updateStatus(id: string, status: PaymentStatus): Promise<Payment>;
-} 
+}

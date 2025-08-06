@@ -9,4 +9,4 @@ export interface IOrderRepository {
   update(id: string, order: Partial<Order>): Promise<Order>;
   remove(id: string): Promise<Order>;
   findByCustomerId(customerId: string): Promise<Order[]>;
-} 
+}

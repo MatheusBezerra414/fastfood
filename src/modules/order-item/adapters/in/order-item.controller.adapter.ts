@@ -15,8 +15,10 @@ import { FindOrderItemUseCase } from '../../application/use-cases/find-order-ite
 import { UpdateOrderItemUseCase } from '../../application/use-cases/update-order-item.use-case';
 import { RemoveOrderItemUseCase } from '../../application/use-cases/remove-order-item.use-case';
 import { FindByIdOrderItemUseCase } from '../../application/use-cases/find-by-id-order-item.use-case';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('order-items')
+@ApiTags('Order Items')
 export class OrderItemControllerAdapter {
   constructor(
     private readonly createOrderItem: CreateOrderItemUseCase,

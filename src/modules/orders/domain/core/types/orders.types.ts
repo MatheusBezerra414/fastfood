@@ -1,8 +1,7 @@
 export enum OrderStatus {
-  AGUARDANDO_PAGAMENTO = 'Aguardando Pagamento',
-  PAGO = 'Pago',
-  EM_PREPARACAO = 'Em Preparação',
-  PRONTO = 'Pronto',
-  FINALIZADO = 'Finalizado',
-  CANCELADO = 'Cancelado',
+  RECEIVED = 'RECEIVED',
+  IN_PREPARATION = 'IN_PREPARATION',
+  READY = 'READY',
+  FINISHED = 'FINISHED',
+  CANCELLED = 'CANCELLED',
 }

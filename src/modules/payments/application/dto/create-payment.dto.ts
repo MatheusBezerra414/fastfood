@@ -7,8 +7,7 @@ export class CreatePaymentDto {
   @IsUUID()
   orderId: string;
 
-  @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
   amount: number;
-} 
+}
