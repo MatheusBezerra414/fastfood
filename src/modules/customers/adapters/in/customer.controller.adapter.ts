@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { CustomerService } from '../../application/services/customer.service';
 import { CreateCustomerDto } from '../../application/dto/create-customer.dto';
 import { UpdateCustomerDto } from '../../application/dto/update-customer.dto';
 import {
@@ -17,11 +16,20 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { CreateCustomerUseCase } from '../../application/use-cases/create-customers.use-case';
+import { FindCustomerUseCase } from '../../application/use-cases/find-customer.use-case';
+import { UpdateCustomerUseCase } from '../../application/use-cases/update-customer.use-case';
+import { RemoveCustomerUseCase } from '../../application/use-cases/remove-customer.use-case';
 
 @Controller('customers')
 @ApiTags('Customers')
 export class CustomerControllerAdapter {
-  constructor(private readonly customerService: CustomerService) {}
+  constructor(
+    private readonly customerCreate: CreateCustomerUseCase,
+    private readonly customerFind: FindCustomerUseCase,
+    private readonly customerUpdate: UpdateCustomerUseCase,
+    private readonly customerRemove: RemoveCustomerUseCase,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Create a new customer' })
@@ -29,14 +37,7 @@ export class CustomerControllerAdapter {
   @ApiResponse({ status: 201, description: 'Customer created successfully.' })
   @ApiResponse({ status: 400, description: 'Invalid input data.' })
   create(@Body() createCustomerDto: CreateCustomerDto) {
-    return this.customerService.create(createCustomerDto);
-  }
-
-  @Get()
-  @ApiOperation({ summary: 'Get all customers' })
-  @ApiResponse({ status: 200, description: 'List of all customers.' })
-  findAll() {
-    return this.customerService.findAll();
+    return this.customerCreate.execute(createCustomerDto);
   }
 
   @Get(':id')
@@ -45,7 +46,7 @@ export class CustomerControllerAdapter {
   @ApiResponse({ status: 200, description: 'Customer found.' })
   @ApiResponse({ status: 404, description: 'Customer not found.' })
   findOne(@Param('id') id: string) {
-    return this.customerService.findOne(id);
+    return this.customerFind.execute(id);
   }
 
   @Patch(':id')
@@ -57,7 +58,7 @@ export class CustomerControllerAdapter {
     @Param('id') id: string,
     @Body() updateCustomerDto: UpdateCustomerDto,
   ) {
-    return this.customerService.update(id, updateCustomerDto);
+    return this.customerUpdate.execute(id, updateCustomerDto);
   }
 
   @Delete(':id')
@@ -66,6 +67,6 @@ export class CustomerControllerAdapter {
   @ApiResponse({ status: 200, description: 'Customer deleted successfully.' })
   @ApiResponse({ status: 404, description: 'Customer not found.' })
   remove(@Param('id') id: string) {
-    return this.customerService.remove(id);
+    return this.customerRemove.execute(id);
   }
 }
