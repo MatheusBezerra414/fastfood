@@ -12,21 +12,23 @@ import {
   PAYMENT_REPOSITORY,
 } from '../../ports/out/payment.repository.port';
 import { PaymentStatus } from '../../domain/core/types/payment.types';
-import { OrderService } from '../../../orders/application/services/order.service';
 import { OrderStatus } from '../../../orders/domain/core/types/orders.types';
+import { FindOrderUseCase } from 'src/modules/orders/application/use-cases/find-order.use-case';
+import { UpdateStatusOrderUseCase } from 'src/modules/orders/application/use-cases/update-status-order.use-case';
 
 @Injectable()
 export class PaymentService {
   constructor(
     @Inject(PAYMENT_REPOSITORY)
     private readonly paymentRepository: IPaymentRepository,
-    private readonly orderService: OrderService,
+    private readonly findOrder: FindOrderUseCase,
+    private readonly updateStatusOrder: UpdateStatusOrderUseCase,
   ) {}
 
   async create(dto: CreatePaymentDto): Promise<Payment> {
     try {
       const { orderId } = dto;
-      const order = await this.orderService.findOne(orderId);
+      const order = await this.findOrder.execute(orderId);
       if (!order) {
         throw new NotFoundException(`Order with ID ${orderId} not found.`);
       }
@@ -111,19 +113,19 @@ export class PaymentService {
         throw new NotFoundException(`Payment with ID ${id} not found.`);
       }
       if (status === PaymentStatus.APPROVED) {
-        const order = await this.orderService.findOne(payment.orderId);
-        await this.orderService.updateStatus(order.id, {
+        const order = await this.findOrder.execute(payment.orderId);
+        await this.updateStatusOrder.execute(order.id, {
           id: order.id,
           status: OrderStatus.PAGO,
         });
       }
       if (status === PaymentStatus.FAILED) {
-        await this.orderService.updateStatus(payment.orderId, {
+        await this.updateStatusOrder.execute(payment.orderId, {
           id: payment.orderId,
           status: OrderStatus.CANCELADO,
         });
       }
-      const orderUpdated = await this.orderService.findOne(payment.orderId);
+      const orderUpdated = await this.findOrder.execute(payment.orderId);
       const paymentUpdated = await this.updateStatus(id, status);
       return {
         payment: paymentUpdated,

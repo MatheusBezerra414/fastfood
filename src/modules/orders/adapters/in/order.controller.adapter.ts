@@ -7,27 +7,39 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { OrderService } from '../../application/services/order.service';
 import { CreateOrderDto } from '../../application/dto/create-order.dto';
 import { UpdateOrderStatusDto } from '../../application/dto/update-order.dto';
+import { CreateOrderUseCase } from '../../application/use-cases/create-order.use-case';
+import { FindAllOrderItemUseCase } from 'src/modules/order-item/application/use-cases/find-order-items.use-case';
+import { FindOrderUseCase } from '../../application/use-cases/find-order.use-case';
+import { UpdateStatusOrderUseCase } from '../../application/use-cases/update-status-order.use-case';
+import { RemoveOrderUseCase } from '../../application/use-cases/remove-order-use-case';
+import { FindByCustomerIdOrderUseCase } from '../../application/use-cases/find-order-by-customer.use-case';
 
 @Controller('orders')
 export class OrderControllerAdapter {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(
+    private readonly createOrder: CreateOrderUseCase,
+    private readonly findAllOrders: FindAllOrderItemUseCase,
+    private readonly findOrder: FindOrderUseCase,
+    private readonly updateStatusOrder: UpdateStatusOrderUseCase,
+    private readonly removeOrder: RemoveOrderUseCase,
+    private readonly findByCustomerIdOrder: FindByCustomerIdOrderUseCase,
+  ) {}
 
   @Post()
   create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto);
+    return this.createOrder.execute(createOrderDto);
   }
 
   @Get()
   findAll() {
-    return this.orderService.findAll();
+    return this.findAllOrders.execute();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.orderService.findOne(id);
+    return this.findOrder.execute(id);
   }
 
   @Patch(':id')
@@ -35,16 +47,16 @@ export class OrderControllerAdapter {
     @Param('id') id: string,
     @Body() updateOrderStatusDto: UpdateOrderStatusDto,
   ) {
-    return this.orderService.updateStatus(id, updateOrderStatusDto);
+    return this.updateStatusOrder.execute(id, updateOrderStatusDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.orderService.remove(id);
+    return this.removeOrder.execute(id);
   }
 
   @Get('customer/:customerId')
   findByCustomerId(@Param('customerId') customerId: string) {
-    return this.orderService.findByCustomerId(customerId);
+    return this.findByCustomerIdOrder.execute(customerId);
   }
-} 
+}
