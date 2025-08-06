@@ -30,4 +30,4 @@ export class Payment {
 
   @UpdateDateColumn()
   updatedAt: Date;
-} 
+}

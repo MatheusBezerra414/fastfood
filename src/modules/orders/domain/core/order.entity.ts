@@ -28,7 +28,7 @@ export class Order {
   @Column({
     type: 'enum',
     enum: OrderStatus,
-    default: OrderStatus.AGUARDANDO_PAGAMENTO,
+    default: OrderStatus.RECEIVED,
   })
   @ApiProperty({ enum: OrderStatus })
   status: OrderStatus;

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Order } from '../../domain/core/order.entity';
+import { In, Not, Repository } from 'typeorm';
+import { Order, OrderStatus } from '../../domain/core/order.entity';
 import { IOrderRepository } from '../../ports/out/order.repository.port';
 
 @Injectable()
@@ -17,7 +17,10 @@ export class TypeOrmOrderRepositoryAdapter implements IOrderRepository {
   }
 
   async findAll(): Promise<Order[]> {
-    return this.repository.find();
+    return this.repository.find({
+      relations: ['customer', 'items'],
+      where: { status: Not(In([OrderStatus.CANCELLED, OrderStatus.FINISHED])) }, // Exclude cancelled orders
+    });
   }
 
   async findOne(id: string): Promise<Order> {

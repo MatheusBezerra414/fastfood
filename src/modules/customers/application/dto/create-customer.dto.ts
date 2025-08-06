@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsOptional, IsString, Length } from 'class-validator';
+import { IsEmail, IsOptional, Matches } from 'class-validator';
 
 export class CreateCustomerDto {
   @IsOptional()
-  @Length(11, 11)
+  @Matches(/^\d{11}$/, { message: 'CPF deve conter 11 dígitos numéricos' })
   @ApiProperty({ required: false })
   cpf?: string;
 
   @IsOptional()
-  @IsString()
+  @IsEmail()
   @ApiProperty({ required: false })
   name?: string;
 

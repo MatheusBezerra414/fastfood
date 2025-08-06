@@ -8,8 +8,8 @@ export class WebhookPaymentDto {
   @IsUUID()
   id: string;
 
-  @ApiProperty({ enum: PaymentStatus })
+  @ApiProperty({ enum: PaymentStatus, example: PaymentStatus.APPROVED })
   @IsNotEmpty()
   @IsEnum(PaymentStatus)
   status: PaymentStatus;
-} 
+}

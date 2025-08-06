@@ -21,8 +21,8 @@ import { PaymentsModule } from './modules/payments/payments.module';
     DatabaseModule,
     CustomersModule,
     ProductsModule,
-    OrdersModule,
     OrderItemModule,
+    OrdersModule,
     PaymentsModule,
   ],
 })

@@ -1,6 +1,6 @@
 # FastFood API 🍔
 
-API REST para sistema de autoatendimento de lanchonete, desenvolvida em TypeScript com NestJS e arquitetura hexagonal. Projeto da Fase 1 do SOAT Tech Challenge.
+API REST para sistema de autoatendimento de lanchonete, desenvolvida em TypeScript com NestJS e arquitetura limpa (Clean Architecture). Projeto da Fase 2 do SOAT Tech Challenge.
 
 ## 🚀 Tecnologias
 
@@ -20,9 +20,10 @@ API REST para sistema de autoatendimento de lanchonete, desenvolvida em TypeScri
 
 1. Clone o repositório
 ```bash
-git clone https://github.com/fastfood-tc/fastfood.git
+git clone https://github.com/MatheusBezerra414/fastfood.git
 cd fastfood
 ```
+
 
 2. Instale as dependências
 ```bash
@@ -71,10 +72,11 @@ A API estará disponível em `http://localhost:3000` e a documentação em `http
 
 ## 🏗️ Arquitetura
 
-O projeto segue a Arquitetura Hexagonal (Ports & Adapters) com os seguintes módulos:
+O projeto segue a Arquitetura Limpa (Clean Architecture) com os seguintes módulos:
 
 - **Customers**: Gestão de clientes
 - **Products**: Catálogo de produtos
+- **Order-item**: Produtos selecionados para processamento
 - **Orders**: Processamento de pedidos
 - **Payments**: Integração com gateway de pagamento
 
