@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fastfood-config
+data:
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_SYNCHRONIZE: "true"
+  DB_TYPE: postgres
+  NODE_ENV: production
+  PORT: "3000"
