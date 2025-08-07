@@ -19,7 +19,8 @@ export class TypeOrmOrderRepositoryAdapter implements IOrderRepository {
   async findAll(): Promise<Order[]> {
     return this.repository.find({
       relations: ['customer', 'items'],
-      where: { status: Not(In([OrderStatus.CANCELLED, OrderStatus.FINISHED])) }, // Exclude cancelled orders
+      where: { status: Not(In([OrderStatus.CANCELLED, OrderStatus.FINISHED])) },
+      order: { createdAt: 'asc' },
     });
   }
 
