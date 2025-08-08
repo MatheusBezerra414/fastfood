@@ -1,4 +1,3 @@
-
 import { AppDataSource } from '../../data-source';
 import { Customer } from 'src/modules/customers/domain/core/customer.entity';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,12 +12,15 @@ async function runSeed() {
   const customerRepo = AppDataSource.getRepository(Customer);
   const productRepo = AppDataSource.getRepository(Product);
 
-  await customerRepo.save({
-    id: uuidv4(),
-    email: 'visitante@example.com',
-    name: 'VISITANTE',
-    cpf: '12345678900',
-  });
+  await customerRepo.upsert(
+    {
+      id: uuidv4(),
+      email: 'visitante@example.com',
+      name: 'VISITANTE',
+      cpf: '12345678900',
+    },
+    { conflictPaths: ['cpf'] },
+  );
 
   const products: Partial<Product>[] = [
     {
