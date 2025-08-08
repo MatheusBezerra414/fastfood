@@ -21,7 +21,6 @@ echo "🐘 Subindo PostgreSQL..."
 kubectl apply -f infra/k8s/postgres/postgres-deployment.yaml
 kubectl apply -f infra/k8s/postgres/postgres-service.yaml
 
-
 echo "📦 Subindo FastFood Api app..."
 kubectl apply -f infra/k8s/deployment.yaml
 kubectl apply -f infra/k8s/service.yaml

@@ -52,7 +52,7 @@ npm run start:dev
 
 ## 🐳 Simulando Produção
 
-Para simular um ambiente de produção, você pode usar o Docker Compose para subir toda a aplicação:
+Para simular um ambiente de produção, você pode usar a infra estrutura do Kubernets para subir toda a aplicação:
 
 ```bash
 # Clone o repositório
@@ -62,13 +62,23 @@ cd fastfood
 # Configure as variáveis de ambiente
 cp .env.example .env
 
-# Inicie todos os serviços (API + PostgreSQL)
-docker compose up -d
+# Inicie todos os serviços com os K8S (API + PostgreSQL)
+./infra/k8s/apply.sh
+```
+
+Verifique os pods em execução
+```bash
+kubectl get pods
+```
+
+Acesse a API via serviço:
+```bash
+minikube service fastfood-service --url
 ```
 
 ## 📚 Documentação
 
-A API estará disponível em `http://localhost:3000` e a documentação em `http://localhost:3000/docs`.
+A API poderá estar disponível em `http://localhost:3000` e a documentação (Swagger) em `http://localhost:3000/docs`.
 
 ## 🏗️ Arquitetura
 
@@ -89,12 +99,37 @@ O projeto segue a Arquitetura Limpa (Clean Architecture) com os seguintes módul
 - `npm run lint`: Executa o linter
 - `npm run format`: Formata o código
 
-## 🔄 Melhorias Futuras
+## Arquitetura do Sistema
 
-- Implementação de testes unitários e e2e
-- Autenticação e autorização (JWT)
-- Frontend em React/Next.js
-- CI/CD com GitHub Actions
+### Diagrama de Arquitetura Geral
+
+![Arquitetura Geral](./imgs/arquitetura-k8s.png)
+
+Este diagrama mostra a arquitetura do sistema com os principais componentes:
+- Kubernetes com Minikube ou cluster real
+- Deployments e Services para API NestJS e PostgreSQL
+- Ingress para exposição externa
+- Volumes persistentes para o banco de dados
+- Comunicação dos atores (Cliente, Cozinha e Sistemas Externos)
+
+---
+
+### Diagramas de Use Cases por Módulo
+
+Cada módulo tem um diagrama de use case específico para representar seus casos de uso principais.
+
+**Clientes:**
+
+![Use Cases Clientes](./imgs/use-case_customer.png)
+
+**Pedidos:**
+
+![Use Cases Pedidos](./imgs/use-case_order.png)
+
+**Pagamentos:**
+
+![Use Cases Pagamentos](./imgs/use-case_payment.png)
+
 
 ## 📝 Licença
 
