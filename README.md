@@ -52,7 +52,7 @@ npm run start:dev
 
 ## 🐳 Simulando Produção
 
-Para simular um ambiente de produção, você pode usar o Docker Compose para subir toda a aplicação:
+Para simular um ambiente de produção, você pode usar a infra estrutura do Kubernets para subir toda a aplicação:
 
 ```bash
 # Clone o repositório
